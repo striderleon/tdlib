@@ -39,6 +39,8 @@
 // #define USE_THORUP almost
 //#define USE_FIPPTM
 #define USE_PP
+//#define USE_FIPPTM
+#define USE_PPFI
 
 
 typedef enum{
