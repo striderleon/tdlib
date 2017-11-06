@@ -26,6 +26,7 @@
 // #define USE_RANDOM_MD // 1
 #define USE_FI
 #define USE_PPFI
+#define USE_PPFITM
 // #define USE_MSVS_TRIVIAL // 4
 // #define USE_BMD // 8
 // #define USE_SOME // maybe

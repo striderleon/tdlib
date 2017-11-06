@@ -562,7 +562,7 @@ void twh(P& p, mag_t m, unsigned mask)
     }
 #endif
 /*--------------------------------------------------------------------------*/
-#ifdef USE_FIPPTM
+#ifdef USE_PPFITM
     if(!(mask & ( 1 << nPPFITM ))) {
     }else if( m < M16){ untested();
         reg_thread(threads, nPPFITM, new PPFITM_THREAD<uG16, grtd_algo_config>(g16, "FIPPTM_16"));
