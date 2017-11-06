@@ -78,6 +78,8 @@ private:
    //iorder_t _elimord;
 };
 
+typedef boost::adjacency_list<boost::setS, boost::vecS, boost::undirectedS> SETGRAPH;
+
 // FIXME: this is specific to FI
 template<class G,
              template<class GG, template<class G_, class ...> class CFGT> class A,
@@ -86,13 +88,14 @@ template<class G,
 class SEVERAL_FI_THREAD : public TWTHREAD<G, cfgt> {
 public:
     typedef cfgt<G> CFG;
-    typedef treedec::impl::fillIn<GWORKFI, cfgt> algo_type;
-    typedef TWTHREAD<GWORKFI, cfgt> base;
+//    typedef treedec::impl::fillIn<GWORKFI, cfgt> algo_type;
+    typedef TWTHREAD<G, cfgt> base;
 	 using base::_g;
 	 using base::_result;
     SEVERAL_FI_THREAD( G const&g, const std::string& name )
-        : base(g, name, 0), _work(g)
+        : base(g, name, 0)
     { itested();
+		 boost::copy_graph(g, _work);
         base::go();
     }
 
@@ -100,14 +103,14 @@ public:
     { untested();
         std::cerr<< "c size " << boost::num_vertices(_work) << "\n";
         // auto &g=TWTHREAD<G>::_g;
-		  treedec::grtdprinter<G> P(o, _work);
+		  treedec::grtdprinter<SETGRAPH> P(o, _work);
 		  size_t numbags = boost::num_vertices(_t);
 		  P.head(numbags, _result);
 		  boost::copy_graph(_t, P);
     }
 
     void run() { untested();
-		 A <GWORKFI, cfgt> a(_work);
+		 A <SETGRAPH, cfgt> a(_work);
 		 a.do_it();
 		 a.get_tree_decomposition(_t);
 
@@ -125,8 +128,8 @@ public:
 //
     }
 private:
-   GWORKFI _work;
-   decomp_t<GWORKFI> _t;
+   SETGRAPH _work;
+   decomp_t<SETGRAPH> _t;
 }; // SEVERAL_FI_THREAD
 
 template<class G, template<class H, class ... >
